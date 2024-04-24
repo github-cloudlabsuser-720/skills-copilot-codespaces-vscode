@@ -1,0 +1,27 @@
+# Create a GitHub action to email a report from a file at 6 a.m. daily.
+name: Deploy App
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy app
+        run: echo "Deploying the app"
+
+      - name: Email report
+        run: echo "Sending email report"
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.sendgrid.net
+          server_port: 587
+          username: apikey
